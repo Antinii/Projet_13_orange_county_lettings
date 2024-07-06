@@ -1,33 +1,45 @@
 from django.shortcuts import render
-from .models import Letting, Profile
 
 
 def index(request):
+    """
+    View function for the index page.
+
+    Renders the index template.
+
+    Args:
+        request (HttpRequest): The request object.
+
+    Returns:
+        HttpResponse: The rendered index page.
+    """
     return render(request, 'index.html')
 
+def handler404(request, exception):
+    """
+    View function for handling HTTP 404 errors.
 
-def lettings_index(request):
-    lettings_list = Letting.objects.all()
-    context = {'lettings_list': lettings_list}
-    return render(request, 'lettings_index.html', context)
+    Renders the 404 error template.
 
+    Args:
+        request (HttpRequest): The request object.
+        exception: The exception that triggered the 404 error.
 
-def letting(request, letting_id):
-    letting = Letting.objects.get(id=letting_id)
-    context = {
-        'title': letting.title,
-        'address': letting.address,
-    }
-    return render(request, 'letting.html', context)
+    Returns:
+        HttpResponse: The rendered 404 error page with HTTP status code 404.
+    """
+    return render(request, '404.html', status=404)
 
+def handler500(request):
+    """
+    View function for handling HTTP 500 errors.
 
-def profiles_index(request):
-    profiles_list = Profile.objects.all()
-    context = {'profiles_list': profiles_list}
-    return render(request, 'profiles_index.html', context)
+    Renders the 500 error template.
 
+    Args:
+        request (HttpRequest): The request object.
 
-def profile(request, username):
-    profile = Profile.objects.get(user__username=username)
-    context = {'profile': profile}
-    return render(request, 'profile.html', context)
+    Returns:
+        HttpResponse: The rendered 500 error page with HTTP status code 500.
+    """
+    return render(request, '500.html', status=500)

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Server Error</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Server Error (500)</h1>
+    <p>Oops! Something went wrong on our end. Please try again later.</p>
+    <a href="{% url 'index' %}">Go to Homepage</a>
+</body>
+</html>
