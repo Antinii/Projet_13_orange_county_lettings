@@ -15,6 +15,7 @@ def migrate_profiles_data(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ('profiles', '0001_initial'),
+        ('oc_lettings_site', '0001_initial'),
     ]
 
     operations = [

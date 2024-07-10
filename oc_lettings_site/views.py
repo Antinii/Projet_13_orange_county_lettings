@@ -15,6 +15,7 @@ def index(request):
     """
     return render(request, 'index.html')
 
+
 def handler404(request, exception):
     """
     View function for handling HTTP 404 errors.
@@ -29,6 +30,7 @@ def handler404(request, exception):
         HttpResponse: The rendered 404 error page with HTTP status code 404.
     """
     return render(request, '404.html', status=404)
+
 
 def handler500(request):
     """

@@ -8,7 +8,8 @@ class Profile(models.Model):
 
     Attributes:
         user (OneToOneField): The user associated with this profile.
-        favorite_city (CharField): The user's favorite city, with a maximum length of 64 characters (optional).
+        favorite_city (CharField): The user's favorite city, with a maximum
+        length of 64 characters (optional).
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     favorite_city = models.CharField(max_length=64, blank=True)

@@ -6,7 +6,8 @@ def index(request):
     """
     View function for the index page of profiles.
 
-    Retrieves all profiles from the database and renders the index template with the list of profiles.
+    Retrieves all profiles from the database and renders the index
+    template with the list of profiles.
 
     Args:
         request (HttpRequest): The request object.
@@ -23,7 +24,8 @@ def profile(request, username):
     """
     View function for a single profile page.
 
-    Retrieves a specific profile by username and renders the profile template with the profile's details.
+    Retrieves a specific profile by username and renders the profile
+    template with the profile's details.
 
     Args:
         request (HttpRequest): The request object.
