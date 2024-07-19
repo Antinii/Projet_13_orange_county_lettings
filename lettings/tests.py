@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from .models import Address, Letting
+from unittest.mock import patch
 
 
 class AddressModelTest(TestCase):
@@ -94,7 +95,8 @@ class LettingViewTests(TestCase):
             address=self.address
         )
 
-    def test_index_view(self):
+    @patch('lettings.views.logger')
+    def test_index_view(self, mock_logger):
         """
         Test the index view of Letting.
         """
@@ -102,8 +104,10 @@ class LettingViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Sample Letting")
         self.assertTemplateUsed(response, 'lettings/index.html')
+        mock_logger.debug.assert_called_with('Lettings index view accessed')
 
-    def test_letting_view(self):
+    @patch('lettings.views.logger')
+    def test_letting_view(self, mock_logger):
         """"
         Test the letting detail view of Letting.
         """
@@ -112,3 +116,14 @@ class LettingViewTests(TestCase):
         self.assertContains(response, "Sample Letting")
         self.assertContains(response, "123 Sample Street")
         self.assertTemplateUsed(response, 'lettings/letting.html')
+        mock_logger.info.assert_called_with
+        (f'Letting view accessed for letting_id: {self.letting.id}')
+
+    @patch('lettings.views.logger')
+    def test_letting_view_not_found(self, mock_logger):
+        """
+        Test the letting detail view if not found.
+        """
+        response = self.client.get(reverse('lettings:letting', args=[999]))
+        self.assertEqual(response.status_code, 404)
+        mock_logger.error.assert_called_with('Letting not found for letting_id: 999')

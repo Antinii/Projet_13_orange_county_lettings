@@ -1,5 +1,10 @@
+import logging
 from django.shortcuts import render
+from django.http import HttpResponseNotFound
 from .models import Letting
+
+
+logger = logging.getLogger(__name__)
 
 
 # Aenean leo magna, vestibulum et tincidunt fermentum, consectetur quis velit.
@@ -19,6 +24,7 @@ def index(request):
     Returns:
         HttpResponse: The rendered index page with the context containing all lettings.
     """
+    logger.debug('Lettings index view accessed')
     lettings_list = Letting.objects.all()
     context = {'lettings_list': lettings_list}
     return render(request, 'lettings/index.html', context)
@@ -49,9 +55,14 @@ def letting(request, letting_id):
         HttpResponse: The rendered letting page with the context containing the letting's
         title and address.
     """
-    letting = Letting.objects.get(id=letting_id)
-    context = {
-        'title': letting.title,
-        'address': letting.address,
-    }
-    return render(request, 'lettings/letting.html', context)
+    try:
+        letting = Letting.objects.get(id=letting_id)
+        context = {
+            'title': letting.title,
+            'address': letting.address,
+        }
+        logger.info(f'Letting view accessed for letting_id: {letting_id}')
+        return render(request, 'lettings/letting.html', context)
+    except Letting.DoesNotExist:
+        logger.error(f'Letting not found for letting_id: {letting_id}')
+        return HttpResponseNotFound('Letting not found')

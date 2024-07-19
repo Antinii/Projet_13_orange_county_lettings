@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import Profile
+from unittest.mock import patch
 
 
 class ProfileModelTest(TestCase):
@@ -31,17 +32,18 @@ class ProfileModelTest(TestCase):
 
 class ProfileViewTests(TestCase):
     """
-    Test cases for Profile views.
+    Test case for profiles view.
     """
     def setUp(self):
         """
-        Set up the client and a sample User with Profile object for testing views.
+        Set up a sample Profile object with an associated user for testing views.
         """
         self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='12345')
         self.profile = Profile.objects.create(user=self.user, favorite_city='Test City')
 
-    def test_index_view(self):
+    @patch('profiles.views.logger')
+    def test_index_view(self, mock_logger):
         """
         Test the index view of Profile.
         """
@@ -49,13 +51,26 @@ class ProfileViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'testuser')
         self.assertTemplateUsed(response, 'profiles/index.html')
+        mock_logger.debug.assert_called_with('Profiles index view accessed')
 
-    def test_profile_view(self):
+    @patch('profiles.views.logger')
+    def test_profile_view(self, mock_logger):
         """
-        Test the profile detail view of Profile.
+        Test the profiles detail view of Profile.
         """
         response = self.client.get(reverse('profiles:profile', args=[self.user.username]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'testuser')
         self.assertContains(response, 'Test City')
         self.assertTemplateUsed(response, 'profiles/profile.html')
+        mock_logger.info.assert_called_with
+        (f'Profile view accessed for username: {self.user.username}')
+
+    @patch('profiles.views.logger')
+    def test_profile_view_not_found(self, mock_logger):
+        """
+        Test the profile detail view if not found.
+        """
+        response = self.client.get(reverse('profiles:profile', args=['nonexistentuser']))
+        self.assertEqual(response.status_code, 404)
+        mock_logger.error.assert_called_with('Profile not found for username: nonexistentuser')

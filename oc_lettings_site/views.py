@@ -1,4 +1,8 @@
+import logging
 from django.shortcuts import render
+
+
+logger = logging.getLogger(__name__)
 
 
 # Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque molestie quam
@@ -20,6 +24,7 @@ def index(request):
     Returns:
         HttpResponse: The rendered index page.
     """
+    logger.debug('Index view accessed')
     return render(request, 'index.html')
 
 
@@ -36,6 +41,7 @@ def handler404(request, exception):
     Returns:
         HttpResponse: The rendered 404 error page with HTTP status code 404.
     """
+    logger.error(f'404 error encountered: {exception}')
     return render(request, '404.html', status=404)
 
 
@@ -51,4 +57,5 @@ def handler500(request):
     Returns:
         HttpResponse: The rendered 500 error page with HTTP status code 500.
     """
+    logger.error('500 error encountered')
     return render(request, '500.html', status=500)

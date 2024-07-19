@@ -1,5 +1,10 @@
+import logging
 from django.shortcuts import render
+from django.http import HttpResponseNotFound
 from .models import Profile
+
+
+logger = logging.getLogger(__name__)
 
 
 # Sed placerat quam in pulvinar commodo. Nullam laoreet consectetur ex,
@@ -18,6 +23,7 @@ def index(request):
     Returns:
         HttpResponse: The rendered index page with the context containing all profiles.
     """
+    logger.debug('Profiles index view accessed')
     profiles_list = Profile.objects.all()
     context = {'profiles_list': profiles_list}
     return render(request, 'profiles/index.html', context)
@@ -42,6 +48,11 @@ def profile(request, username):
     Returns:
         HttpResponse: The rendered profile page with the context containing the profile.
     """
-    profile = Profile.objects.get(user__username=username)
-    context = {'profile': profile}
-    return render(request, 'profiles/profile.html', context)
+    try:
+        profile = Profile.objects.get(user__username=username)
+        context = {'profile': profile}
+        logger.info(f'Profile view accessed for username: {username}')
+        return render(request, 'profiles/profile.html', context)
+    except Profile.DoesNotExist:
+        logger.error(f'Profile not found for username: {username}')
+        return HttpResponseNotFound('Profile not found')
