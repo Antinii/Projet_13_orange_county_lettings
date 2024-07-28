@@ -17,6 +17,9 @@ COPY . /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Run the collectstatic command
+RUN python manage.py collectstatic --noinput
+
 # Expose the port the app runs on
 EXPOSE 8000
 
