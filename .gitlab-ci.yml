@@ -7,7 +7,7 @@ variables:
   DATABASE_URL: "postgres://postgres:postgres@postgres:5432/test_db"
   SECRET_KEY: $SECRET_KEY
   SENTRY_DSN: $SENTRY_DSN
-  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  DOCKER_IMAGE: $DOCKER_USERNAME/oc_lettings_site:$CI_COMMIT_SHA
 
 services:
   - name: postgres:11
@@ -37,12 +37,12 @@ build:
   services:
     - docker:dind
   before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   script:
     - docker build -t $DOCKER_IMAGE .
-    - docker tag $DOCKER_IMAGE $CI_REGISTRY_IMAGE:latest
+    - docker tag $DOCKER_IMAGE $DOCKER_USERNAME/oc_lettings_site:latest
     - docker push $DOCKER_IMAGE
-    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker push $DOCKER_USERNAME/oc_lettings_site:latest
   only:
     - master
 
