@@ -7,6 +7,7 @@ variables:
   DATABASE_URL: "postgres://postgres:postgres@postgres:5432/test_db"
   SECRET_KEY: $SECRET_KEY
   SENTRY_DSN: $SENTRY_DSN
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
 services:
   - name: postgres:11
@@ -18,7 +19,7 @@ test:
   script:
     - pip install --upgrade pip
     - pip install -r requirements.txt
-    - pip install flake8 coverage pytest
+    - pip install flake8 coverage pytest dj-database-url
     - flake8 .
     - coverage run -m pytest
     - coverage report
@@ -38,10 +39,10 @@ build:
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:latest .
-    - docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker build -t $DOCKER_IMAGE .
+    - docker tag $DOCKER_IMAGE $CI_REGISTRY_IMAGE:latest
+    - docker push $DOCKER_IMAGE
     - docker push $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   only:
     - master
 
