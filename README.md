@@ -71,7 +71,7 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 
 #### Déploiement
 
-- 
+- Pour acceder au déploiement de l'app suivez ce lien : `http://projet-13-orange-county-lettings.rtfd.io`
 
 ### Windows
 
