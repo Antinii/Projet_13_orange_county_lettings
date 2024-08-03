@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deployment &mdash; Projet_13_orange_county_lettings july 2024 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=7ddc6e6b"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="User Guide" href="user_guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Projet_13_orange_county_lettings
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="description.html">Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">QuickStart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="techs_and_languages.html">Technologies and Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programmation.html">Programming Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-set-up-gitlab-ci-cd-for-compilation-testing-linting-and-coverage-checking">Step 1: set up Gitlab CI/CD for Compilation, Testing, Linting, and Coverage Checking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-dockerfile-for-building-docker-images">Step 2: Dockerfile for Building Docker Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-configure-render-for-continuous-deployment">Step 3: Configure Render for Continuous Deployment</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Projet_13_orange_county_lettings</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Deployment</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/deployment.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deployment">
+<h1>Deployment<a class="headerlink" href="#deployment" title="Link to this heading"></a></h1>
+<section id="step-1-set-up-gitlab-ci-cd-for-compilation-testing-linting-and-coverage-checking">
+<h2>Step 1: set up Gitlab CI/CD for Compilation, Testing, Linting, and Coverage Checking<a class="headerlink" href="#step-1-set-up-gitlab-ci-cd-for-compilation-testing-linting-and-coverage-checking" title="Link to this heading"></a></h2>
+<p>The deployment is automated using Gitlab and Render.
+The gitlab-ci.yml file contains all the steps of the deployment.</p>
+<p>To be able to deploy the website you’ll need a Gitlab account, a Docker account and a Render account.</p>
+<p>Explanation</p>
+<p>Stages:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>test: Compiles, tests, lints, and checks coverage greater than 80%.</p></li>
+<li><p>build: Builds the Docker image and pushes it to the Docker Hub.</p></li>
+<li><p>deploy: Placeholder for deployment, handled by Render’s GitHub/GitLab integration.</p></li>
+</ul>
+</div></blockquote>
+<p>Environment variables:</p>
+<p>SECRET_KEY, SENTRY_DSN, DOCKER_USERNAME and DOCKER_PASSWORD are defined as environment variables.
+Set the following environment variables and secrets in your GitLab CI/CD settings for your project:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>SECRET_KEY: Your Django secret key.</p></li>
+<li><p>SENTRY_DSN: Your Sentry DSN.</p></li>
+<li><p>DOCKER_USERNAME: Your Docker Hub username.</p></li>
+<li><p>DOCKER_PASSWORD: Your Docker Hub password. (you can use a personnal token)</p></li>
+</ul>
+</div></blockquote>
+<p>Services:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>postgres: A PostgreSQL service for running tests.</p></li>
+</ul>
+</div></blockquote>
+<p>Jobs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>test: Installs dependencies, runs linting, tests, and coverage checks.</p></li>
+<li><p>build: Logs in to Docker Hub, builds the Docker image, and pushes it to the GitLab Container Registry.</p></li>
+<li><p>deploy: Placeholder job to indicate deployment to Render.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="step-2-dockerfile-for-building-docker-images">
+<h2>Step 2: Dockerfile for Building Docker Images<a class="headerlink" href="#step-2-dockerfile-for-building-docker-images" title="Link to this heading"></a></h2>
+<p>Ensure you have a Dockerfile in your project’s root directory.
+This step will build a Docker image and push it to the Docker Hub.</p>
+<p>DOCKER_IMAGE: $DOCKER_USERNAME/oc_lettings_site:$CI_COMMIT_SHA</p>
+<p>The name of the Docker image will be the docker username, followed by oc_lettings_site and tagged with the commit SHA.</p>
+</section>
+<section id="step-3-configure-render-for-continuous-deployment">
+<h2>Step 3: Configure Render for Continuous Deployment<a class="headerlink" href="#step-3-configure-render-for-continuous-deployment" title="Link to this heading"></a></h2>
+<p>Create a New Web Service on Render:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Log in to your Render account.</p></li>
+<li><p>Click “New” and select “Web Service”.</p></li>
+<li><p>Connect your GitLab repository to Render.</p></li>
+<li><p>Configure the build and runtime settings, such as environment variables (SECRET_KEY, SENTRY_DSN), and specify the start command (e.g., gunicorn oc_lettings_site.wsgi:application).</p></li>
+</ul>
+</div></blockquote>
+<p>Set Up Environment Variables on Render:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>In the Render dashboard, go to the “Environment” tab for your web service.</p></li>
+<li><p>Add environment variables such as SECRET_KEY, SENTRY_DSN, and any other variables required by your Django application.</p></li>
+</ul>
+</div></blockquote>
+<p>Configure Automatic Deployments:</p>
+<p>You can enable automatic deployments from your GitLab repository to Render.
+This will trigger a deployment on Render whenever changes are pushed to the master branch.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="user_guide.html" class="btn btn-neutral float-left" title="User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, antony klein.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

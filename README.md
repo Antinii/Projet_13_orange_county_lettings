@@ -69,6 +69,10 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 - Aller sur `http://localhost:8000/admin`
 - Connectez-vous avec l'utilisateur `admin`, mot de passe `Abc1234!`
 
+#### Déploiement
+
+- 
+
 ### Windows
 
 Utilisation de PowerShell, comme ci-dessus sauf :

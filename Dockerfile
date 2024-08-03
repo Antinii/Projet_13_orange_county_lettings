@@ -10,6 +10,9 @@ COPY requirements.txt /app/requirements.txt
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
+# Run the collectstatic command
+RUN python manage.py collectstatic --noinput
+
 # Copy the entire project into the container
 COPY . /app
 
